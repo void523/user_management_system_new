@@ -1,0 +1,106 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
+exports.verifyMail = (recepient,content)=>{
+    var https = require('follow-redirects').https;
+    var fs = require('fs');
+    
+    var options = {
+      'method': 'POST',
+      'hostname': 'api.sendinblue.com',
+      'path': '/v3/smtp/email',
+      'headers': {
+        'accept': 'application/json',
+        'api-key': process.env.BLUE_API_KEY,
+        'content-type': 'application/json'
+      },
+      'maxRedirects': 20
+    };
+    
+    var req = https.request(options, function (res) {
+      var chunks = [];
+    
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+    
+      res.on("end", function (chunk) {
+        var body = Buffer.concat(chunks);
+        console.log(body.toString());
+      });
+    
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
+    
+    var postData = JSON.stringify({
+      "sender": {
+        "name": "abhi",
+        "email": "abhimadhu523@gmail.com"
+      },
+      "to": [
+        {
+          "email": recepient
+        }
+      ],
+      "subject": "Email verification",
+      "htmlContent": content
+    });
+    
+    req.write(postData);
+    
+    req.end();
+  }
+
+  exports.resetMail = (recepient,content)=>{
+    var https = require('follow-redirects').https;
+    var fs = require('fs');
+    
+    var options = {
+      'method': 'POST',
+      'hostname': 'api.sendinblue.com',
+      'path': '/v3/smtp/email',
+      'headers': {
+        'accept': 'application/json',
+        'api-key': process.env.BLUE_API_KEY,
+        'content-type': 'application/json'
+      },
+      'maxRedirects': 20
+    };
+    
+    var req = https.request(options, function (res) {
+      var chunks = [];
+    
+      res.on("data", function (chunk) {
+        chunks.push(chunk);
+      });
+    
+      res.on("end", function (chunk) {
+        var body = Buffer.concat(chunks);
+        console.log(body.toString());
+      });
+    
+      res.on("error", function (error) {
+        console.error(error);
+      });
+    });
+    
+    var postData = JSON.stringify({
+      "sender": {
+        "name": "abhi",
+        "email": "abhimadhu523@gmail.com"
+      },
+      "to": [
+        {
+          "email": recepient
+        }
+      ],
+      "subject": "Password Reset",
+      "htmlContent": content
+    });
+    
+    req.write(postData);
+    
+    req.end();
+  }
