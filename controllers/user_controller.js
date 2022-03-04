@@ -1,3 +1,6 @@
+/**
+ * requirement for user_controller
+ */
 const bycrypt = require('bcrypt');
 const _ = require('lodash');
 const {User} = require('../models/user');
@@ -6,7 +9,13 @@ const { v4} = require('uuid');
 const validation = require('../validate');
 const mail = require('../utils/mail');
 
-exports.signUp = async(req,res)=>{
+/**
+ * a function to create new user
+ * @param {JSON} req  req.body containing schema of user to be updated to database
+ * @param {JSON} res response of body indicating email verification
+ * @returns A json object with JWT token and message
+ */
+exports.signUp = async (req,res)=>{
     const {error} = validation.validateUserSignUp(req.body);
     if(error){
       return res.status(400).send(error.details[0].message);
@@ -36,8 +45,13 @@ exports.signUp = async(req,res)=>{
     }
   };
 
-
-exports.login =  async(req,res)=>{
+/**
+ * Function for User login
+ * @param {JSON} req req.body containing a registered user 
+ * @param {JSON} res response containing JWT authentication token and message 
+ * @returns A json response with JWT token and message
+ */
+exports.login =  async (req,res)=>{
     const {error} = validation.loginValidation(req.body);
     if(error){
         return res.status(400).send(error.details[0].message);
@@ -70,7 +84,15 @@ exports.login =  async(req,res)=>{
     }
 };
 
-exports.emailVerify = async(req,res)=>{
+
+
+/**
+ * Function for email verification
+ * @param {JSON} req request paramters(req.params) containing userId and verification token 
+ * @param {string} res response containing message 
+ * @returns message indicating whether email verified
+ */
+exports.emailVerify = async (req,res)=>{
     let id = req.params.userId;
     let currentToken = req.params.token;
     const query = { _id: id };
@@ -84,6 +106,12 @@ exports.emailVerify = async(req,res)=>{
     }
 };
 
+/**
+ * Function for initiate password reset
+ * @param {JSON} req request with body containing registered email,reset-token,new password 
+ * @param {string} res response message indicating sending token to registered mail
+ * @returns message indicating reset in initiated
+ */
 exports.reset = async (req,res)=>{
     try{
         const {error} = validation.reset(req.body);
@@ -108,7 +136,13 @@ exports.reset = async (req,res)=>{
     }
     }
 
-exports.newPassword = async(req,res)=>{
+/**
+ * A function to update new password
+ * @param {JSON} req request body containing the reset-token, registered email and new password
+ * @param {string} res response message indicating whether passsword reset is done
+ * @returns updates the new password with message indicating progress
+ */    
+exports.newPassword = async (req,res)=>{
     const {error} = validation.newPass(req.body);
     if(error){
         return res.status(400).send(error.details[0].message);
@@ -129,7 +163,12 @@ exports.newPassword = async(req,res)=>{
     }
 }
 
-exports.dashboard = async(req,res)=>{
+/**
+ * a function showing user dashboard with user details
+ * @param {JSON} req request body containing details of user provided via the JWT token 
+ * @param {JSON} res response as JSON object containing basic dashboard information including user details
+ */
+exports.dashboard = async (req,res)=>{
     res.status(200).json({
         data:{
             title:"User Dashboard",

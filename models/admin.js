@@ -1,3 +1,6 @@
+/**
+ * Model schema for the admin data to be stored in database
+ */
 const mongoose =  require('mongoose');
 
 const Admin = mongoose.model('Admin',new mongoose.Schema({

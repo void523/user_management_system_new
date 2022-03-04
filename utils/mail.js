@@ -1,6 +1,11 @@
 const dotenv = require("dotenv");
 dotenv.config();
 
+/**
+ * Function for email verification
+ * @param {string} recepient the email id of a newly registered user 
+ * @param {string} content   body of the email containing verification token
+ */
 exports.verifyMail = (recepient,content)=>{
     var https = require('follow-redirects').https;
     var fs = require('fs');
@@ -53,6 +58,11 @@ exports.verifyMail = (recepient,content)=>{
     req.end();
   }
 
+/**
+ * Function to initiate password reset
+ * @param {string} recepient user who wants to reset password
+ * @param {string} content body of email containing reset token
+ */
   exports.resetMail = (recepient,content)=>{
     var https = require('follow-redirects').https;
     var fs = require('fs');

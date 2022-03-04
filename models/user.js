@@ -1,6 +1,8 @@
+/**
+ * Model schema for the admin data to be stored in database
+ */
 const mongoose =  require('mongoose');
 
-//mongoose schema of collection: user
 const User = mongoose.model('User',new mongoose.Schema({
     firstName:{
         type:String,

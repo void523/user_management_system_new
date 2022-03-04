@@ -1,3 +1,6 @@
+/**
+ * requirement for user_controller
+ */
 const bycrypt = require('bcrypt');
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
@@ -5,7 +8,13 @@ const {Admin} = require('../models/admin');
 const { User } = require('../models/user');
 const validation = require('../validate');
 
-exports.signUp = async(req,res)=>{
+/**
+ * Function for admin registration
+ * @param {JSON} req request a JSON object containing admin schema for registration
+ * @param {JSON} res response a JSON object containing message and JWT token
+ * @returns message and token indicating user signup
+ */
+exports.signUp = async (req,res)=>{
     const {error} = validation.validateAdminSignUp(req.body);
     if(error){
       return res.status(400).send(error.details[0].message);
@@ -29,8 +38,13 @@ exports.signUp = async(req,res)=>{
     }
   };
 
-
-exports.login =  async(req,res)=>{
+/**
+ * Funtion for login of registered admin
+ * @param {JSON} req request a JSON onject containing email and password to login
+ * @param {JSON} res response a JSON object with message and JWT token
+ * @returns message indicating admin login and JWT token
+ */
+exports.login =  async (req,res)=>{
     const {error} = validation.loginValidation(req.body);
     if(error){
         return res.status(400).send(error.details[0].message);
@@ -53,7 +67,12 @@ exports.login =  async(req,res)=>{
     });
 };
 
-exports.dashboard = async(req,res)=>{
+/**
+ * Function to display admin dashboard and to perform CRUD operation
+ * @param {JSON} req request body containing details of user provided via the JWT token 
+ * @param {JSON} res response as JSON object containing basic dashboard information including Admin details
+ */
+exports.dashboard = async (req,res)=>{
     res.status(200).json({
         data:{
             title:"Admin Dashboard",
@@ -64,13 +83,22 @@ exports.dashboard = async(req,res)=>{
     });
 };
 
-
+/**
+ * CRUD operation to get all Users in database
+ * @param {null} req  
+ * @param {JSON} res a response as JSON object with all users in the database 
+ */
 exports.getAllUsers =  async (req,res)=>{
     let users = await User.aggregate([{$project :{email:1,phone_number:1,firstName:1,lastName:1,country:1,gender:1}}]);
     res.send(users);
 };
 
-exports.getUserById =  async(req,res)=>{
+/**
+ * CRUD operation to get a specific user via user _id
+ * @param {string} req Request with parameter containing a specific user _id 
+ * @param {JSON} res response as JSON object with the specific user details
+ */
+exports.getUserById =  async (req,res)=>{
     try{
         let id = req.params.userId;
         const query = { _id: id };
@@ -85,7 +113,12 @@ exports.getUserById =  async(req,res)=>{
     }
 };
 
-exports.updateUserById = async(req,res)=>{
+/**
+ * CRUD operation to update a user fields via user _id
+ * @param {JSON} req A request with body containing a JSON object of fields to be updated
+ * @param {String} res a response message indicating whether the operation is successfull
+ */
+exports.updateUserById = async (req,res)=>{
     let id = req.params.userId;
     const query = { _id: id };
     const user_update = req.body;
@@ -102,7 +135,13 @@ exports.updateUserById = async(req,res)=>{
     res.send('document updated.')
 };
 
-exports.deleteUserById = async(req,res)=>{
+
+/**
+ * CRUD operation to delete a specific user via user _id
+ * @param {string} req a request with params containing the user _id of specific user
+ * @param {string} res a response message indicating whether the operation is successfull
+ */
+exports.deleteUserById = async (req,res)=>{
     let id = req.params.userId;
     await User.deleteOne({_id:id});
     res.send("Deletion successfull");

@@ -1,3 +1,6 @@
+/**
+ * Basic requirements
+ */
 const InitiateMongoServer = require('./config/db');
 const usersRouter = require('./routes/users');
 const adminsRouter = require('./routes/admins');
@@ -11,8 +14,14 @@ const logger = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 
+/**
+ * Function to initiate connection to database
+ */
 InitiateMongoServer()
 
+/**
+ * Middlewares to be used 
+ */
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(express.json());

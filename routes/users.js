@@ -1,3 +1,6 @@
+/**
+ * different routes for the admin
+ */
 var express = require('express');
 var router = express.Router();
 const controller = require('../controllers/user_controller');

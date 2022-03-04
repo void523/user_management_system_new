@@ -1,5 +1,10 @@
 const Joi = require('joi')
 
+/**
+ * joi validation for user signup 
+ * @param {JSON} user a JSON object containing the details of new user to be registered 
+ * @returns Return an error if joi validation fails
+ */
 exports.validateUserSignUp = (user)=>{
     const schema = {
         firstName: Joi.string().min(2).max(50).required(),
@@ -17,6 +22,11 @@ exports.validateUserSignUp = (user)=>{
     return Joi.validate(user,schema)
 }
 
+/**
+ * joi validation for admin signup 
+ * @param {JSON} admin a JSON object containing the details of new admin to be registered 
+ * @returns Return an error if joi validation fails
+ */
 exports.validateAdminSignUp = (admin)=>{
     const schema = {
         name: Joi.string().min(2).max(50).required(),
@@ -28,6 +38,11 @@ exports.validateAdminSignUp = (admin)=>{
     return Joi.validate(admin,schema)
 }
 
+/**
+ * Joi validation for admin/user 
+ * @param {JSON} data a JSON object containing the login credentials 
+ * @returns returns error if joi validation fails
+ */
 exports.loginValidation = (data)=>{
     const schema = {
         email: Joi.string().min(5).max(255).required().email(),
@@ -36,6 +51,11 @@ exports.loginValidation = (data)=>{
     return Joi.validate(data,schema);
 }
 
+/**
+ * joi validation for password reset
+ * @param {string} email  email of user initiating password reset 
+ * @returns returns error if joi validation fails
+ */
 exports.reset = (email) =>{
     const schema = {
         email: Joi.string().min(5).max(255).required().email().required(),
@@ -43,6 +63,11 @@ exports.reset = (email) =>{
     return Joi.validate(email,schema);
 }
 
+/**
+ * joi validation for updating new password
+ * @param {JSON} req request with JSON object containing email,reset-token and new password 
+ * @returns returns error if joi validation fails
+ */
 exports.newPass = (req)=>{
     const schema = {
         email: Joi.string().min(5).max(255).required().email().required(),
