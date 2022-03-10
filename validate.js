@@ -5,7 +5,8 @@ const Joi = require('joi')
  * @param {JSON} user a JSON object containing the details of new user to be registered 
  * @returns Return an error if joi validation fails
  */
-exports.validateUserSignUp = (user)=>{
+
+const validateUserSignUp = (user)=>{
     const schema = {
         firstName: Joi.string().min(2).max(50).required(),
         lastName: Joi.string().min(2).max(50).required(),
@@ -27,7 +28,8 @@ exports.validateUserSignUp = (user)=>{
  * @param {JSON} admin a JSON object containing the details of new admin to be registered 
  * @returns Return an error if joi validation fails
  */
-exports.validateAdminSignUp = (admin)=>{
+
+const validateAdminSignUp = (admin)=>{
     const schema = {
         name: Joi.string().min(2).max(50).required(),
         email: Joi.string().min(5).max(255).required().email(),
@@ -43,7 +45,8 @@ exports.validateAdminSignUp = (admin)=>{
  * @param {JSON} data a JSON object containing the login credentials 
  * @returns returns error if joi validation fails
  */
-exports.loginValidation = (data)=>{
+
+const loginValidation = (data)=>{
     const schema = {
         email: Joi.string().min(5).max(255).required().email(),
         password: Joi.string().min(5).max(255).required()
@@ -56,7 +59,8 @@ exports.loginValidation = (data)=>{
  * @param {string} email  email of user initiating password reset 
  * @returns returns error if joi validation fails
  */
-exports.reset = (email) =>{
+
+const reset = (email) =>{
     const schema = {
         email: Joi.string().min(5).max(255).required().email().required(),
     };
@@ -68,7 +72,8 @@ exports.reset = (email) =>{
  * @param {JSON} req request with JSON object containing email,reset-token and new password 
  * @returns returns error if joi validation fails
  */
-exports.newPass = (req)=>{
+
+const newPass = (req)=>{
     const schema = {
         email: Joi.string().min(5).max(255).required().email().required(),
         password: Joi.string().min(5).max(255).required(),
@@ -76,3 +81,7 @@ exports.newPass = (req)=>{
     };
     return Joi.validate(req,schema);
 }
+
+module.exports = {
+    validateUserSignUp,validateAdminSignUp,loginValidation,reset,newPass
+};

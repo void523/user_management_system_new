@@ -1,3 +1,7 @@
+/**
+ * Function for establishing database connection
+ */
+
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
